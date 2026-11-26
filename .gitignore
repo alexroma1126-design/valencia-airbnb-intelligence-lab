@@ -1,0 +1,44 @@
+﻿.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.env
+data/raw/
+data/processed/
+*.part
+.streamlit/secrets.toml
+
+# Copias de seguridad
+app/*backup*.py
+app/*before*.py
+app/*stable*.py
+
+# Scripts temporales de mantenimiento
+upgrade_app.py
+fix_imports.py
+fix_map.py
+cleanup_map.py
+
+# Resultados individuales
+results/tables/*_listings.csv
+results/tables/review_id_audit.csv
+results/tables/review_count_validation.csv
+
+# Archivos temporales
+*.log
+*.tmp
+*.zip
+
+
+# Configuracion local de VS Code
+.vscode/
+
+# Credenciales y configuraciones privadas
+.env.*
+*.pem
+*.key
+
+
+# Conservar el informe de auditoria de Listings
+!results/tables/audit_listings.csv
+

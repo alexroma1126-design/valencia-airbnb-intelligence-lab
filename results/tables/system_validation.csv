@@ -1,0 +1,57 @@
+﻿prueba,estado,detalle
+app/app.py,PASS,
+app/advanced_tabs.py,PASS,
+app/geographic.py,PASS,
+src/analytics.py,PASS,
+src/download_data.py,PASS,
+src/inspect_data.py,PASS,
+src/query_engine.py,PASS,
+src/audit_reviews.py,PASS,
+test_analytics.py,PASS,
+requirements.txt,PASS,
+.gitignore,PASS,
+.streamlit/config.toml,PASS,
+data/raw/listings.csv.gz,PASS,
+data/raw/calendar.csv.gz,PASS,
+data/raw/reviews.csv.gz,PASS,
+data/raw/neighbourhoods.csv,PASS,
+data/raw/neighbourhoods.geojson,PASS,
+Integridad gzip: listings.csv.gz,PASS,
+Integridad gzip: calendar.csv.gz,PASS,
+Integridad gzip: reviews.csv.gz,PASS,
+Total alojamientos,PASS,7968
+Total calendario,PASS,2908320
+Total asociaciones de resenas,PASS,509513
+Total barrios,PASS,84
+Total anfitriones,PASS,3215
+Precios validos,PASS,7197
+Mediana de precios,PASS,134.1
+ID de alojamiento unico,PASS,
+Correspondencia listings-calendar,PASS,
+Reviews asociados a listings,PASS,
+Clave compuesta calendario,PASS,
+Clave compuesta resenas,PASS,
+Resenas con ID unico,PASS,458154
+Conteo de resenas consistente,PASS,7968 coincidencias
+365 fechas de calendario,PASS,
+365 registros por alojamiento,PASS,
+Disponibilidad binaria valida,PASS,
+Disponibilidad general,PASS,52.27
+Maxima disponibilidad diaria,PASS,5889
+Minima disponibilidad diaria,PASS,528
+Latitudes validas,PASS,
+Longitudes validas,PASS,
+GeoJSON valido,PASS,88 elementos
+Barrio BENIFERRI,PASS,10
+Barrio BENICALAP,PASS,128
+Barrio CAMPANAR,PASS,46
+Barrio RUSSAFA,PASS,551
+Barrio ALBORS,PASS,102
+Barrio CABANYAL-CANYAMELAR,PASS,774
+Estadistica descriptiva,PASS,
+Serie temporal mensual,PASS,190
+Media movil,PASS,
+Reconstruccion STL,PASS,Error: 9.095e-13
+ACF retardo cero,PASS,
+PACF retardo cero,PASS,
+Validacion independiente de estancia,PASS,3467 alojamientos compatibles

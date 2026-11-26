@@ -1,0 +1,6 @@
+﻿variable,tipo,nulos,porcentaje_nulos,valores_unicos
+listing_id,int64,0,0.0,7968
+date,str,0,0.0,365
+available,str,0,0.0,2
+minimum_nights,int64,0,0.0,72
+maximum_nights,int64,0,0.0,375

@@ -1,0 +1,7 @@
+﻿variable,tipo,nulos,porcentaje_nulos,valores_unicos
+listing_id,int64,0,0.0,7143
+id,int64,0,0.0,458154
+date,str,0,0.0,5016
+reviewer_id,int64,0,0.0,430295
+reviewer_name,str,1,0.0,57731
+comments,str,25,0.0,442985
