@@ -42,3 +42,25 @@ results/tables/review_count_validation.csv
 # Conservar el informe de auditoria de Listings
 !results/tables/audit_listings.csv
 
+
+# Archivos auxiliares de LaTeX
+informes/*.aux
+informes/*.log
+informes/*.toc
+informes/*.lof
+informes/*.lot
+informes/*.out
+informes/*.synctex.gz
+informes/*.fls
+informes/*.fdb_latexmk
+informes/*.bbl
+informes/*.blg
+informes/*before*.tex
+informes/main.pdf
+
+# Scripts temporales de mantenimiento
+fix_report.py
+fix_report_final.py
+improve_figures.py
+improve_report.py
+

@@ -148,3 +148,35 @@ académica del docente.
 
 Versión 2.0: laboratorio exploratorio y analítico validado.
 Modelado predictivo pendiente de definición.
+
+## Informe cientifico-tecnico
+
+El proyecto incluye un informe academico sobre el analisis
+estadistico, geoespacial y temporal de Valencia.
+
+- Autor: Mat. Hector Roman
+- Version documental: 2.1.0
+- Base analitica: v2.0.0
+- Figuras cientificas: 10
+
+[Consultar el informe PDF](informes/Valencia_Airbnb_Intelligence_Lab_Informe.pdf)
+
+### Reproducir el informe
+
+Generar las figuras:
+
+    python generate_report_figures.py
+
+Compilar el documento:
+
+    cd informes
+    pdflatex main.tex
+    pdflatex main.tex
+    pdflatex main.tex
+
+La compilacion requiere una distribucion LaTeX compatible,
+por ejemplo MiKTeX o TeX Live.
+
+La version 2.1.0 incorpora la documentacion cientifica
+sin modificar los resultados analiticos de la version 2.0.0.
+

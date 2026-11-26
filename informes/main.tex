@@ -1,0 +1,1571 @@
+\documentclass[11pt,a4paper]{article}
+
+% ======================================
+% PAQUETES
+% ======================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\usepackage{caption}
+\usepackage{hyperref}
+
+\geometry{margin=2.5cm}
+\graphicspath{{figuras/}}
+
+\definecolor{academicblue}{RGB}{23,59,99}
+\definecolor{academicgray}{RGB}{75,85,99}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=academicblue,
+    citecolor=academicblue,
+    urlcolor=academicblue,
+    pdftitle={Valencia Airbnb Intelligence Lab},
+    pdfauthor={Mat. Hector Roman}
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Valencia Airbnb Intelligence Lab}
+\fancyhead[R]{Proyecto 1}
+\fancyfoot[C]{\thepage}
+
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+\setstretch{1.25}
+
+\captionsetup{
+    font=small,
+    labelfont=bf
+}
+
+\newcommand{\figura}[3]{
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=#2\textwidth,height=0.68\textheight,keepaspectratio]{#1}
+        \caption{#3}
+    \end{figure}
+}
+
+% ======================================
+% DOCUMENTO
+% ======================================
+
+\widowpenalty=10000
+\clubpenalty=10000
+\displaywidowpenalty=10000
+
+\begin{document}
+
+% ======================================
+% PORTADA
+% ======================================
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+
+\centering
+
+{\Large\bfseries\color{academicblue}
+UNIVERSIDAD YACHAY TECH\par}
+
+\vspace{0.5cm}
+
+{\large Maestría en Ciencia de Datos\par}
+
+\vspace{0.3cm}
+
+{\large PB -- Aprendizaje de Máquina\par}
+
+\vfill
+
+{\color{academicblue}\rule{\textwidth}{1.5pt}}
+
+\vspace{0.7cm}
+
+{\Huge\bfseries\color{academicblue}
+Valencia Airbnb\\[0.3cm]
+Intelligence Lab\par}
+
+\vspace{0.6cm}
+
+{\Large
+Análisis estadístico, geoespacial y temporal
+de alojamientos turísticos mediante Python\par}
+
+\vspace{0.7cm}
+
+{\color{academicblue}\rule{\textwidth}{1.5pt}}
+
+\vfill
+
+{\large
+\begin{tabular}{rl}
+\textbf{Autor:} & Mat. Héctor Román\\[0.3cm]
+\textbf{Docente:} & Luis Fernando Zhinin Vera\\[0.3cm]
+\textbf{Proyecto:} & 1\\[0.3cm]
+\textbf{Versión:} & 2.1.0\\[0.3cm]
+\textbf{Fecha:} & 26 de noviembre de 2026
+\end{tabular}
+}
+
+\vfill
+
+{\large
+Informe científico-técnico\par}
+
+\vspace{0.5cm}
+
+\href{
+https://github.com/alexroma1126-design/valencia-airbnb-intelligence-lab
+}{Repositorio del proyecto en GitHub}
+
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+% ======================================
+% RESUMEN
+% ======================================
+
+\begingroup
+% RESUMEN COMPACTO V21
+\setstretch{1.10}
+\small
+\setlength{\parskip}{4pt}
+\section*{Resumen}
+\addcontentsline{toc}{section}{Resumen}
+
+Este trabajo presenta Valencia Airbnb Intelligence Lab,
+una plataforma computacional orientada a la exploración,
+validación, análisis estadístico, análisis geoespacial
+y estudio temporal de alojamientos turísticos en
+Valencia, España.
+
+La investigación utiliza datos procedentes de Inside
+Airbnb, integrando tres conjuntos principales:
+Listings, Calendar y Reviews, además de información
+geográfica complementaria.
+
+El sistema procesa 7\,968 alojamientos, 2\,908\,320
+registros de disponibilidad y 509\,513 asociaciones
+entre alojamientos y reseñas, distribuidos en 84 barrios.
+
+La metodología comprende procesos de adquisición de
+datos, auditoría de calidad, validación relacional,
+estadística descriptiva, análisis de distribuciones,
+medias móviles, descomposición STL y funciones de
+autocorrelación.
+
+Los resultados muestran una disponibilidad anunciada
+general del 52,27\,\text{\char37} y un precio mediano registrado
+de 134,10, expresado en las unidades monetarias de
+la fuente.
+
+Se identificaron 458\,154 identificadores únicos de
+reseñas y asociaciones múltiples de determinados
+identificadores con distintos alojamientos.
+
+La plataforma incorpora ocho módulos interactivos
+implementados mediante Streamlit y una arquitectura
+modular en Python. La auditoría computacional superó
+56 de 56 pruebas diseñadas, complementadas con
+pruebas automatizadas de ejecución de la aplicación.
+
+El trabajo establece una infraestructura reproducible
+para investigaciones posteriores en aprendizaje de
+máquina, sin atribuir capacidad predictiva a los
+procedimientos exclusivamente exploratorios.
+
+\textbf{Palabras clave:} ciencia de datos, Airbnb,
+series temporales, STL, estadística descriptiva,
+análisis geoespacial, Python.
+
+% ======================================
+% ABSTRACT
+% ======================================
+
+\section*{Abstract}
+\addcontentsline{toc}{section}{Abstract}
+
+This work presents Valencia Airbnb Intelligence Lab,
+a computational platform for exploratory, statistical,
+geospatial and temporal analysis of tourist accommodation
+in Valencia, Spain.
+
+The system integrates public datasets provided by Inside
+Airbnb, comprising 7,968 accommodation listings,
+2,908,320 calendar observations and 509,513 listing-review
+associations across 84 represented neighbourhoods.
+
+The methodology combines data acquisition, quality
+assessment, relational validation, descriptive statistics,
+moving averages, STL decomposition and autocorrelation
+analysis.
+
+The platform contains eight interactive Streamlit modules.
+A computational audit successfully passed all 56 designed
+validation tests, supplemented by automated application
+execution tests.
+
+The resulting infrastructure provides a reproducible
+foundation for subsequent machine learning research.
+No trained predictive model is claimed in the current
+version.
+
+\textbf{Keywords:} data science, Airbnb, time series,
+geospatial analysis, Python, STL.
+
+\endgroup
+
+\clearpage
+
+\tableofcontents
+
+\clearpage
+
+\listoffigures
+
+\clearpage
+
+% ======================================
+% INTRODUCCION
+% ======================================
+
+\section{Introducción}
+
+Las plataformas digitales de alojamiento generan
+grandes cantidades de información relacionadas con
+precios, disponibilidad, características estructurales
+y comportamiento histórico de los usuarios.
+
+El análisis computacional de estas fuentes permite
+identificar patrones espaciales y temporales, comparar
+zonas urbanas y construir indicadores que faciliten
+la comprensión de la oferta turística.
+
+Desde la perspectiva de la ciencia de datos,
+la utilidad de un conjunto de información depende
+no solamente de su volumen, sino también de su calidad,
+consistencia, representatividad y estructura matemática.
+
+Por esta razón, el presente proyecto desarrolla una
+infraestructura analítica antes de incorporar algoritmos
+predictivos.
+
+El área de estudio corresponde a Valencia, considerando
+la totalidad de los barrios representados en la
+recopilación de datos.
+
+El proyecto no se limita a una zona particular:
+implementa mecanismos dinámicos de selección y
+comparación entre barrios.
+
+\subsection{Pregunta de investigación}
+
+¿Cómo puede integrarse la información estructural,
+geográfica y temporal de los alojamientos turísticos
+de Valencia en una plataforma computacional
+consistente, interpretable y reproducible?
+
+\subsection{Justificación}
+
+El estudio permite establecer una base metodológica
+para investigaciones relacionadas con demanda turística,
+distribución territorial de alojamientos, disponibilidad
+anunciada y comportamiento temporal de las reseñas.
+
+Asimismo, proporciona una infraestructura para futuros
+problemas de clasificación, regresión, agrupamiento
+y pronóstico temporal.
+
+% ======================================
+% OBJETIVOS
+% ======================================
+
+\section{Objetivos}
+
+\subsection{Objetivo general}
+
+Desarrollar una plataforma computacional reproducible
+para el análisis exploratorio, estadístico, geoespacial
+y temporal de alojamientos turísticos en Valencia,
+utilizando Python y fundamentos matemáticos de
+ciencia de datos.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}
+    \item Integrar los conjuntos Listings, Calendar
+    y Reviews mediante identificadores consistentes.
+
+    \item Evaluar la calidad, integridad y estructura
+    de las bases de datos.
+
+    \item Caracterizar estadísticamente los precios
+    y tipos de alojamiento.
+
+    \item Analizar la distribución espacial de la oferta
+    turística.
+
+    \item Construir series temporales de disponibilidad
+    y reseñas registradas.
+
+    \item Aplicar medias móviles, descomposición STL
+    y análisis de autocorrelación.
+
+    \item Implementar una aplicación interactiva
+    para consultas y comparaciones entre barrios.
+
+    \item Validar computacionalmente los procedimientos
+    implementados y documentar su reproducibilidad.
+\end{enumerate}
+
+% ======================================
+% DATOS
+% ======================================
+
+\section{Descripción de las fuentes de datos}
+
+La fuente principal corresponde a Inside Airbnb
+\cite{insideairbnb}.
+
+Se utilizaron tres archivos detallados y dos fuentes
+geográficas complementarias.
+
+\begin{table}[H]
+\centering
+\caption{Dimensiones originales de las bases de datos.}
+\begin{tabular}{lrr}
+\toprule
+Conjunto & Registros & Variables\\
+\midrule
+Listings & 7\,968 & 90\\
+Calendar & 2\,908\,320 & 5\\
+Reviews & 509\,513 & 6\\
+\midrule
+Total & 3\,425\,801 & --\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Listings}
+
+Cada registro corresponde a un anuncio de alojamiento
+y contiene información estructural, geográfica,
+económica y descriptiva.
+
+La estructura puede representarse como
+
+\[
+L=(x_{ij})_{\substack{
+1\leq i\leq N\\
+1\leq j\leq p}},
+\]
+
+donde $N=7968$ y $p=90$.
+
+Debido a la coexistencia de variables numéricas,
+categóricas y textuales, la estructura no constituye
+una matriz exclusivamente real.
+
+\subsection{Calendar}
+
+El calendario contiene información correspondiente
+a 365 fechas para cada alojamiento.
+
+Por tanto,
+
+\[
+7968\cdot365=2\,908\,320.
+\]
+
+El intervalo registrado se extiende desde el
+25 de septiembre de 2026 hasta el
+24 de septiembre de 2027.
+
+Calendar no contiene precios diarios en la versión
+analizada.
+
+\subsection{Reviews}
+
+La base contiene asociaciones entre alojamientos
+y reseñas, con fechas comprendidas entre el
+12 de octubre de 2010 y el 25 de septiembre de 2026.
+
+Se identificaron:
+
+\begin{itemize}
+    \item 509\,513 asociaciones alojamiento-reseña.
+    \item 458\,154 identificadores únicos de reseñas.
+    \item 24\,699 identificadores asociados a más
+    de un alojamiento.
+\end{itemize}
+
+Las ocurrencias adicionales corresponden a
+
+\[
+509513-458154=51359.
+\]
+
+Este resultado no implica necesariamente duplicación
+errónea, puesto que los pares alojamiento-reseña
+son únicos.
+
+\subsection{Información geográfica}
+
+Los archivos complementarios son
+\texttt{neighbourhoods.csv} y
+\texttt{neighbourhoods.geojson}.
+
+El archivo GeoJSON contiene 88 elementos geográficos,
+mientras que Listings presenta 84 barrios distintos.
+
+Estas cantidades no deben interpretarse como
+equivalentes sin comprobar la correspondencia
+individual entre las entidades geográficas.
+
+% ======================================
+% METODOLOGIA
+% ======================================
+
+\section{Metodología computacional}
+
+El proyecto utiliza una arquitectura modular
+implementada en Python.
+
+El procesamiento comprende las siguientes etapas:
+
+\begin{enumerate}
+    \item Adquisición automatizada de archivos.
+    \item Verificación de integridad de archivos gzip.
+    \item Carga y transformación de variables.
+    \item Validación de identificadores y relaciones.
+    \item Análisis exploratorio y estadístico.
+    \item Construcción de indicadores geográficos
+    y temporales.
+    \item Implementación de módulos interactivos.
+    \item Validación automatizada.
+\end{enumerate}
+
+\subsection{Integridad relacional}
+
+Sean los conjuntos de identificadores
+
+\[
+I_L=\{i:i\in\mathrm{Listings}\},
+\]
+
+\[
+I_C=\{i:i\in\mathrm{Calendar}\},
+\]
+
+\[
+I_R=\{i:i\in\mathrm{Reviews}\}.
+\]
+
+Las pruebas permitieron comprobar que
+
+\[
+I_L=I_C,
+\qquad
+I_R\subseteq I_L.
+\]
+
+Además, se verificó la unicidad de las claves
+compuestas
+
+\[
+(\mathrm{listing\_id},\mathrm{date})
+\]
+
+y
+
+\[
+(\mathrm{listing\_id},\mathrm{review\_id}).
+\]
+
+Esta propiedad resulta fundamental para evitar
+multiplicaciones artificiales de registros durante
+las operaciones relacionales.
+
+\subsection{Calidad de datos}
+
+Para cada variable $j$, se calcula la proporción
+de observaciones faltantes mediante
+
+\[
+M_j=
+\frac{100}{N}
+\sum_{i=1}^{N}
+\mathbf{1}_{\{x_{ij}\text{ faltante}\}}.
+\]
+
+\figura{01_missing_values.png}{0.95}{
+Variables con mayor proporción de datos faltantes.
+Elaboración propia a partir de Listings.}
+
+La presencia de datos faltantes requiere decisiones
+metodológicas dependientes del problema de investigación.
+
+No se recomienda aplicar imputaciones o eliminaciones
+generalizadas sin analizar el significado de cada variable.
+
+\subsection{Procesamiento de precios}
+
+Los precios originales se transformaron desde
+representaciones textuales hacia valores numéricos.
+
+Se conservaron los valores faltantes como observaciones
+no disponibles, evitando generar precios artificiales.
+
+El proceso obtuvo 7\,197 precios válidos.
+
+% ======================================
+% ESTADISTICA
+% ======================================
+
+\section{Análisis estadístico descriptivo}
+
+Sea $X=\{x_1,\ldots,x_n\}$ una muestra de valores
+numéricos válidos.
+
+La media aritmética se define como
+
+\[
+\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i.
+\]
+
+La varianza muestral es
+
+\[
+s^2=\frac{1}{n-1}
+\sum_{i=1}^{n}(x_i-\bar{x})^2,
+\]
+
+y su desviación estándar corresponde a
+
+\[
+s=\sqrt{s^2}.
+\]
+
+La mediana es el cuantil de orden $0,5$:
+
+\[
+\widetilde{x}=Q_{0{,}5}.
+\]
+
+El rango intercuartílico se define como
+
+\[
+RIC=Q_{0{,}75}-Q_{0{,}25}.
+\]
+
+\subsection{Distribución de precios}
+
+\begin{table}[H]
+\centering
+\caption{Estadísticos descriptivos de los precios registrados.}
+\begin{tabular}{lr}
+\toprule
+Estadístico & Valor aproximado\\
+\midrule
+Observaciones válidas & 7\,197\\
+Media & 166,70\\
+Mediana & 134,10\\
+Desviación estándar & 281,60\\
+Mínimo & 9,13\\
+Primer cuartil & 98,33\\
+Tercer cuartil & 183,00\\
+Máximo & 9\,900,00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La media supera a la mediana y existe una diferencia
+considerable entre el máximo y el tercer cuartil.
+
+Estos resultados son compatibles con una distribución
+asimétrica hacia valores elevados.
+
+La existencia de precios extremos no demuestra por sí
+misma que se trate de registros incorrectos.
+
+\figura{04_price_distribution.png}{0.95}{
+Distribución de precios hasta el percentil 99.
+El recorte es exclusivamente visual.}
+
+La figura excluye visualmente las observaciones
+superiores al percentil 99 para facilitar la lectura.
+
+Los estadísticos globales conservan todos los
+precios válidos.
+
+
+\paragraph{Interpretación de la distribución.}
+
+La concentración de observaciones en intervalos
+de precios relativamente bajos, junto con una cola
+derecha prolongada, evidencia la importancia de
+utilizar estadísticos robustos.
+
+La mediana y el rango intercuartílico complementan
+a la media y a la desviación estándar, especialmente
+cuando existen observaciones de magnitud extrema.
+
+\subsection{Comparación entre barrios}
+
+\figura{02_neighbourhoods.png}{0.95}{
+Veinte barrios con mayor número de alojamientos.}
+
+Los cinco barrios con mayor representación son:
+
+\begin{table}[H]
+\centering
+\caption{Barrios con mayor número de anuncios.}
+\begin{tabular}{lr}
+\toprule
+Barrio & Alojamientos\\
+\midrule
+CABANYAL-CANYAMELAR & 774\\
+RUSSAFA & 551\\
+AIORA & 347\\
+EL MERCAT & 340\\
+EL CARME & 300\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Estas cantidades representan la oferta observada
+en la fuente y no necesariamente la totalidad de
+los alojamientos turísticos existentes.
+
+\figura{05_price_boxplots.png}{0.98}{
+Comparación mediante diagramas de caja.
+Los valores atípicos se omiten solamente
+de la representación visual.}
+
+Los diagramas de caja permiten comparar medianas,
+dispersión y rangos intercuartílicos.
+
+La comparación es descriptiva y no constituye
+una prueba formal de diferencias poblacionales.
+
+\subsection{Tipos de alojamiento}
+
+\figura{03_room_types.png}{0.9}{
+Distribución según el tipo de alojamiento.}
+
+\begin{table}[H]
+\centering
+\caption{Composición de la oferta registrada.}
+\begin{tabular}{lr}
+\toprule
+Tipo & Cantidad\\
+\midrule
+Alojamiento completo & 6\,257\\
+Habitación privada & 1\,682\\
+Habitación compartida & 16\\
+Habitación de hotel & 13\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ======================================
+% GEOGRAFIA
+% ======================================
+
+\section{Análisis geoespacial}
+
+Cada alojamiento se caracteriza mediante un par
+ordenado de coordenadas geográficas:
+
+\[
+P_i=(\lambda_i,\varphi_i),
+\]
+
+donde $\lambda_i$ representa la longitud y
+$\varphi_i$ la latitud.
+
+La distribución espacial permite estudiar la
+concentración territorial de los anuncios y
+su relación con los límites geográficos.
+
+\figura{06_geographic_map.png}{0.85}{
+Distribución espacial de los alojamientos.
+Límites procedentes del archivo GeoJSON.}
+
+La plataforma utiliza Folium \cite{folium} y Leaflet para
+la visualización interactiva, además de una
+alternativa basada directamente en coordenadas.
+
+El mapa estático del informe se construye
+sin servicios cartográficos externos.
+
+Las coordenadas proporcionadas por la fuente pueden
+ser aproximadas, por lo que no deben interpretarse
+como localizaciones exactas de inmuebles.
+
+% ======================================
+% DISPONIBILIDAD
+% ======================================
+
+
+\paragraph{Interpretación territorial.}
+
+La representación geográfica muestra una mayor
+concentración visual de anuncios en el núcleo
+urbano de Valencia, con agrupaciones adicionales
+en sectores próximos al litoral.
+
+La intensidad visual de los puntos representa
+la concentración de anuncios observados y no una
+densidad normalizada por superficie.
+
+Una estimación formal de densidad espacial
+requeriría calcular áreas geográficas o incorporar
+métodos específicos de estimación espacial.
+
+\section{Modelización de la disponibilidad}
+
+La información de Calendar permite construir
+una matriz binaria
+
+\[
+A\in\{0,1\}^{N\times T},
+\]
+
+donde $N=7968$ y $T=365$.
+
+Definimos
+
+\[
+A_{it}=
+\begin{cases}
+1,&\text{si el anuncio aparece disponible},\\
+0,&\text{si aparece no disponible}.
+\end{cases}
+\]
+
+La disponibilidad diaria se calcula como
+
+\[
+D_t=\frac{100}{N}\sum_{i=1}^{N}A_{it}.
+\]
+
+El indicador general corresponde a
+
+\[
+D=
+\frac{100}{NT}
+\sum_{i=1}^{N}\sum_{t=1}^{T}A_{it}.
+\]
+
+El resultado registrado fue
+
+\[
+D=52{,}27\;\text{\char37}.
+\]
+
+\figura{07_daily_availability.png}{0.98}{
+Disponibilidad diaria anunciada y media móvil
+de siete días.}
+
+La disponibilidad máxima observada corresponde
+a 5\,889 anuncios en una fecha, mientras que
+la mínima corresponde a 528.
+
+Estos indicadores describen la información
+publicada en el calendario, no la ocupación real.
+
+\subsection{Disponibilidad durante estancias completas}
+
+Para una estancia de $k$ noches con fecha de
+entrada $t$, definimos
+
+\[
+B_i(t,k)=
+\prod_{j=0}^{k-1}A_{i,t+j}.
+\]
+
+Como cada elemento es binario,
+
+\[
+B_i(t,k)=1
+\]
+
+si y solamente si todas las noches del intervalo
+aparecen disponibles.
+
+Además, deben verificarse las restricciones de
+estancia mínima y máxima de la fecha de entrada:
+
+\[
+m_{it}\leq k\leq M_{it}.
+\]
+
+El indicador de compatibilidad se representa como
+
+\[
+C_i(t,k)=
+B_i(t,k)
+\mathbf{1}_{\{m_{it}\leq k\leq M_{it}\}}.
+\]
+
+El número de anuncios compatibles es
+
+\[
+N_c(t,k)=\sum_{i=1}^{N}C_i(t,k).
+\]
+
+Para una estancia de tres noches desde el
+14 de diciembre de 2026, se obtuvieron
+3\,467 alojamientos compatibles.
+
+Este resultado fue comprobado mediante dos
+procedimientos computacionales independientes.
+
+No constituye una garantía de disponibilidad
+efectiva en tiempo real ni una confirmación
+de reserva.
+
+% ======================================
+% SERIES TEMPORALES
+% ======================================
+
+\section{Análisis de series temporales}
+
+Una serie temporal es una sucesión ordenada
+de observaciones
+
+\[
+\{Y_t:t\in\mathcal{T}\},
+\]
+
+donde el índice representa el tiempo.
+
+En este proyecto se estudian principalmente
+las series de disponibilidad anunciada y
+las reseñas registradas.
+
+\subsection{Construcción de la serie de reseñas}
+
+Sea $\mathcal{R}_t$ el conjunto de registros
+asociados a un período temporal $t$.
+
+El número de asociaciones es
+
+\[
+Y_t^{(a)}=|\mathcal{R}_t|.
+\]
+
+El número de identificadores únicos es
+
+\[
+Y_t^{(u)}=
+\left|
+\{r.\mathrm{id}:r\in\mathcal{R}_t\}
+\right|.
+\]
+
+En consecuencia,
+
+\[
+Y_t^{(u)}\leq Y_t^{(a)}.
+\]
+
+La distinción evita interpretar automáticamente
+cada asociación como una reseña independiente.
+
+\figura{08_monthly_reviews.png}{0.98}{
+Evolución mensual de asociaciones e identificadores
+únicos de reseñas.}
+
+Se excluyeron los meses inicial y final de manera
+conservadora para evitar posibles períodos incompletos.
+
+La serie resultante contiene 190 observaciones mensuales.
+
+
+\paragraph{Comportamiento histórico observado.}
+
+La evolución mensual evidencia un crecimiento
+de las reseñas registradas durante gran parte
+del intervalo analizado, una reducción pronunciada
+alrededor de 2020 y una recuperación posterior.
+
+En los últimos años también se observa un incremento
+de la amplitud de las fluctuaciones temporales.
+
+Estos resultados deben interpretarse considerando
+que la serie histórica se construye a partir
+de los anuncios incluidos en la recopilación
+analizada.
+
+Por tanto, la evolución observada no permite
+estimar directamente el crecimiento histórico
+de todas las reservas turísticas de Valencia.
+
+\subsection{Medias móviles}
+
+La media móvil retrospectiva de orden $k$ se
+define como
+
+\[
+MA_t^{(k)}=
+\frac{1}{k}\sum_{j=0}^{k-1}Y_{t-j}.
+\]
+
+Este operador reduce fluctuaciones locales
+y facilita la identificación visual de tendencias.
+
+Una ventana de doce meses puede ayudar a
+suavizar variaciones estacionales anuales
+en series de frecuencia mensual.
+
+\subsection{Descomposición STL}
+
+El método STL, desarrollado por Cleveland y
+colaboradores \cite{cleveland1990}, permite
+descomponer una serie temporal mediante
+suavizado local.
+
+La representación aditiva se expresa como
+
+\[
+Y_t=T_t+S_t+R_t,
+\]
+
+donde
+
+\begin{itemize}
+    \item $T_t$ representa la tendencia.
+    \item $S_t$ representa la componente estacional.
+    \item $R_t$ representa el residuo.
+\end{itemize}
+
+Para la serie mensual se empleó un período
+estacional de doce observaciones.
+
+\figura{09_stl_decomposition.png}{0.98}{
+Descomposición STL robusta de la serie mensual
+de identificadores únicos de reseñas.}
+
+El período seleccionado constituye una hipótesis
+exploratoria de estacionalidad anual.
+
+La descomposición no implica que los patrones
+se mantengan constantes en el futuro.
+
+
+\paragraph{Interpretación de los componentes.}
+
+La tendencia estimada mediante STL refleja
+el crecimiento de largo plazo de las reseñas
+registradas, incluyendo una reducción temporal
+y una recuperación posterior.
+
+La componente estacional presenta fluctuaciones
+de amplitud creciente en los años recientes.
+
+Este comportamiento motiva la exploración futura
+de transformaciones que estabilicen la varianza,
+sin que su conveniencia pueda establecerse
+exclusivamente mediante inspección visual.
+
+Los residuos representan las variaciones no
+explicadas por las componentes estimadas de
+tendencia y estacionalidad.
+
+\subsection{Validación de la reconstrucción}
+
+Se verificó el error máximo
+
+\[
+\varepsilon_{\max}=
+\max_t
+\left|
+Y_t-(T_t+S_t+R_t)
+\right|.
+\]
+
+El resultado de la auditoría fue
+
+\[
+\varepsilon_{\max}
+=9{,}095\times10^{-13}.
+\]
+
+Este valor es compatible con el error numérico
+de las operaciones en punto flotante.
+
+La prueba confirma la consistencia de la
+reconstrucción aditiva, pero no constituye
+una evaluación de precisión predictiva.
+
+% ======================================
+% ACF Y PACF
+% ======================================
+
+\section{Autocorrelación y dependencia temporal}
+
+\subsection{Función de autocorrelación}
+
+La función de autocorrelación teórica de una
+serie débilmente estacionaria se define como
+
+\[
+\rho(k)=
+\frac{\operatorname{Cov}(Y_t,Y_{t-k})}
+{\operatorname{Var}(Y_t)}.
+\]
+
+Un estimador muestral es
+
+\[
+\widehat{\rho}(k)=
+\frac{
+\sum_{t=k+1}^{n}
+(Y_t-\bar{Y})(Y_{t-k}-\bar{Y})
+}{
+\sum_{t=1}^{n}
+(Y_t-\bar{Y})^2
+}.
+\]
+
+La autocorrelación permite estudiar la dependencia
+lineal entre observaciones separadas por $k$
+períodos temporales.
+
+\subsection{Autocorrelación parcial}
+
+La función de autocorrelación parcial, PACF,
+mide la asociación lineal entre $Y_t$ y $Y_{t-k}$
+después de controlar los retardos intermedios.
+
+Puede formularse mediante una regresión
+autorregresiva de orden $k$:
+
+\[
+Y_t=
+c+\sum_{j=1}^{k}
+\phi_{kj}Y_{t-j}
++\varepsilon_t.
+\]
+
+El último coeficiente $\phi_{kk}$ representa
+la autocorrelación parcial bajo la formulación
+autorregresiva correspondiente.
+
+\figura{10_acf_pacf.png}{0.98}{
+Funciones ACF y PACF de la serie mensual
+de reseñas registradas.}
+
+Estas funciones se incluyen como herramientas
+de diagnóstico exploratorio.
+
+La interpretación para identificar órdenes de
+modelos ARIMA requiere evaluar previamente
+estacionariedad, tendencia y estacionalidad.
+
+Los gráficos de la serie original no constituyen
+por sí solos evidencia suficiente para seleccionar
+un modelo definitivo.
+
+% ======================================
+% APLICACION
+% ======================================
+
+
+\subsection{Interpretación de los resultados}
+
+La función de autocorrelación de la serie mensual
+presenta valores positivos elevados en los primeros
+retardos y un decaimiento relativamente lento.
+
+Por otra parte, la función de autocorrelación
+parcial muestra una asociación especialmente
+elevada en el primer retardo.
+
+Este comportamiento es compatible con una fuerte
+persistencia temporal y con la presencia de una
+tendencia en la serie original.
+
+Sin embargo, no constituye evidencia suficiente
+para establecer un modelo autorregresivo de
+orden uno ni para confirmar la estacionariedad.
+
+Una etapa predictiva posterior debería incorporar
+transformaciones, pruebas de estacionariedad,
+diagnóstico de residuos y validación cronológica,
+siguiendo una metodología de pronóstico
+estadístico \cite{hyndman2021}.
+
+Los procedimientos computacionales de diagnóstico
+se implementaron mediante Statsmodels
+\cite{statsmodels}.
+
+\section{Desarrollo de la plataforma interactiva}
+
+La plataforma se implementó mediante Streamlit
+\cite{streamlit}, Pandas \cite{mckinney2010}
+y herramientas complementarias de análisis
+numérico y visualización.
+
+\begin{table}[H]
+\centering
+\caption{Arquitectura funcional de la aplicación.}
+\begin{tabularx}{\textwidth}{
+p{0.05\textwidth}
+p{0.31\textwidth}
+X}
+\toprule
+N. & Módulo & Funcionalidad\\
+\midrule
+1 & Exploración &
+Calidad de datos, dimensiones e integridad.\\
+2 & Barrios y mapas &
+Distribución territorial de anuncios.\\
+3 & Precios &
+Distribuciones y estadística descriptiva.\\
+4 & Series temporales &
+Disponibilidad e historial de reseñas.\\
+5 & Consultas rápidas &
+Filtros de características y fechas.\\
+6 & Laboratorio matemático &
+STL, medias móviles, ACF y PACF.\\
+7 & Comparador de barrios &
+Comparación de indicadores descriptivos.\\
+8 & Estancias completas &
+Disponibilidad consecutiva y restricciones.\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Arquitectura del código}
+
+La estructura principal separa la lógica analítica
+de la representación visual:
+
+\begin{verbatim}
+app/
+    app.py
+    advanced_tabs.py
+    geographic.py
+
+src/
+    analytics.py
+    download_data.py
+    inspect_data.py
+    query_engine.py
+    audit_reviews.py
+
+results/
+    tables/
+
+test_analytics.py
+test_streamlit.py
+validate_project.py
+\end{verbatim}
+
+Esta separación facilita el mantenimiento,
+la extensión y la evaluación independiente
+de los procedimientos matemáticos.
+
+% ======================================
+% VALIDACION
+% ======================================
+
+\section{Validación computacional}
+
+La validación se diseñó para comprobar propiedades
+estructurales, relaciones entre conjuntos de datos
+y consistencia de los algoritmos.
+
+\begin{table}[H]
+\centering
+\caption{Resultados de la auditoría integral.}
+\begin{tabular}{lr}
+\toprule
+Indicador & Resultado\\
+\midrule
+Pruebas ejecutadas & 56\\
+Pruebas superadas & 56\\
+Pruebas fallidas & 0\\
+Tiempo observado & 4,03 s\\
+Porcentaje de pruebas superadas & 100\,\text{\char37}\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+La validación incluyó:
+
+\begin{itemize}
+    \item Existencia de archivos requeridos.
+    \item Integridad de archivos comprimidos.
+    \item Dimensiones de las bases.
+    \item Unicidad de identificadores.
+    \item Correspondencia entre tablas.
+    \item Consistencia de claves compuestas.
+    \item Validación de rangos geográficos.
+    \item Consultas por barrio.
+    \item Funciones estadísticas.
+    \item Reconstrucción STL.
+    \item Propiedades de ACF y PACF en retardo cero.
+    \item Disponibilidad durante estancias completas.
+\end{itemize}
+
+\subsection{Validación de la aplicación}
+
+Las pruebas automatizadas de Streamlit comprobaron
+la ejecución inicial, la presencia de ocho módulos
+y la selección dinámica de cinco barrios:
+
+\begin{center}
+BENIFERRI, BENICALAP, RUSSAFA, CAMPANAR y ALBORS.
+\end{center}
+
+No se registraron excepciones en las ejecuciones
+comprobadas.
+
+La validación automatizada no garantiza la correcta
+representación de todos los componentes JavaScript
+ni de todas las combinaciones posibles de entradas.
+
+\subsection{Integridad criptográfica}
+
+Los archivos principales fueron registrados mediante
+huellas digitales SHA-256.
+
+Para un archivo $F$, se define
+
+\[
+h=\operatorname{SHA256}(F).
+\]
+
+La comparación posterior de estas huellas permite
+detectar modificaciones de los archivos originales.
+
+Los resultados se almacenan en
+\texttt{data\_hashes.json}.
+
+% ======================================
+% APRENDIZAJE DE MAQUINA
+% ======================================
+
+\section{Relación con el aprendizaje de máquina}
+
+El presente trabajo desarrolla una infraestructura
+de datos y análisis necesaria para abordar
+problemas de aprendizaje de máquina.
+
+Formalmente, un problema de aprendizaje supervisado
+puede expresarse mediante una muestra
+
+\[
+\mathcal{D}=
+\{(\mathbf{x}_i,y_i)\}_{i=1}^{n},
+\]
+
+y un modelo parametrizado $f_{\theta}$.
+
+El entrenamiento busca minimizar una función
+de pérdida empírica:
+
+\[
+\widehat{\theta}
+=
+\operatorname*{arg\,min}_{\theta}
+\frac{1}{n}
+\sum_{i=1}^{n}
+\mathcal{L}
+\left(
+y_i,f_{\theta}(\mathbf{x}_i)
+\right).
+\]
+
+La plataforma desarrollada facilita la construcción
+de los conjuntos de características requeridos
+por este proceso.
+
+Entre las aplicaciones futuras se encuentran:
+
+\begin{itemize}
+    \item Regresión para estimación de precios.
+    \item Clasificación de alojamientos.
+    \item Agrupamiento de anuncios o barrios.
+    \item Pronóstico temporal de reseñas.
+    \item Identificación de patrones espaciales.
+\end{itemize}
+
+\subsection{Posible extensión hacia modelos temporales}
+
+Un modelo SARIMA puede representarse mediante
+
+\[
+\Phi_P(B^s)\phi_p(B)
+(1-B)^d(1-B^s)^D Y_t
+=
+\Theta_Q(B^s)\theta_q(B)\varepsilon_t,
+\]
+
+donde $B$ representa el operador de retardo
+y $s$ el período estacional.
+
+Esta familia de modelos constituye una posible
+extensión metodológica \cite{hyndman2021}.
+
+Su incorporación requeriría evaluar estacionariedad,
+seleccionar parámetros y comparar resultados
+mediante validación cronológica.
+
+No se entrenaron modelos SARIMA ni se estimaron
+sus capacidades predictivas en la versión 2.0.0.
+
+\subsection{Evaluación predictiva futura}
+
+Para predicciones $\widehat{y}_i$ y observaciones
+reales $y_i$, podrían utilizarse las métricas
+
+\[
+\mathrm{MAE}=
+\frac{1}{n}\sum_{i=1}^{n}
+|y_i-\widehat{y}_i|,
+\]
+
+\[
+\mathrm{RMSE}=
+\sqrt{
+\frac{1}{n}
+\sum_{i=1}^{n}
+(y_i-\widehat{y}_i)^2
+}.
+\]
+
+En problemas temporales, la partición de entrenamiento
+y evaluación debe respetar el orden cronológico
+para evitar utilizar información futura.
+
+% ======================================
+% LIMITACIONES
+% ======================================
+
+\section{Limitaciones metodológicas}
+
+El análisis presenta las siguientes limitaciones:
+
+\begin{enumerate}
+    \item La disponibilidad publicada no equivale
+    necesariamente a la ocupación real.
+
+    \item Las reseñas no representan directamente
+    el número total de huéspedes o reservas.
+
+    \item Un identificador de reseña puede asociarse
+    a diferentes alojamientos.
+
+    \item Los precios registrados no representan
+    necesariamente precios efectivos de contratación.
+
+    \item La moneda del precio requiere confirmación
+    independiente mediante documentación de la fuente.
+
+    \item El calendario analizado no contiene
+    precios diarios.
+
+    \item Las coordenadas geográficas pueden
+    ser aproximadas.
+
+    \item El historial de reseñas está condicionado
+    por los anuncios representados en la recopilación,
+    lo que puede introducir sesgos de selección.
+
+    \item La comparación descriptiva no implica
+    causalidad entre características de los barrios
+    y comportamiento turístico.
+
+    \item Las pruebas automatizadas no sustituyen
+    totalmente la validación visual ni la evaluación
+    de generalización predictiva.
+\end{enumerate}
+
+% ======================================
+% REPRODUCIBILIDAD
+% ======================================
+
+\section{Reproducibilidad científica}
+
+El proyecto \cite{project} utiliza Git como sistema de control
+de versiones y GitHub como repositorio remoto.
+
+La versión analítica inicial fue registrada
+mediante la etiqueta
+
+\begin{center}
+\texttt{v2.0.0}
+\end{center}
+
+y el identificador abreviado de commit
+
+\begin{center}
+\texttt{95a1e84}.
+\end{center}
+
+El repositorio contiene el código fuente,
+la documentación, las dependencias registradas
+y los resultados de las auditorías.
+
+\subsection{Repositorio}
+
+\url{https://github.com/alexroma1126-design/valencia-airbnb-intelligence-lab}
+
+El repositorio fue configurado inicialmente como
+privado, por lo que su consulta requiere autorización.
+
+\subsection{Ejecución}
+
+Las instrucciones básicas para Windows son:
+
+\begin{verbatim}
+python -m venv .venv
+
+.\.venv\Scripts\Activate.ps1
+
+python -m pip install -r requirements-lock.txt
+
+python src/download_data.py
+
+python validate_project.py
+
+python test_streamlit.py
+
+python -m streamlit run app/app.py
+\end{verbatim}
+
+La reproducción exacta de los resultados requiere
+recuperar los mismos archivos de origen y comprobar
+sus huellas SHA-256.
+
+Se verificó la clonación del repositorio remoto
+y la compilación sintáctica de sus módulos Python.
+
+La ejecución completa desde un entorno independiente
+y recién instalado permanece como una validación
+adicional no realizada.
+
+% ======================================
+% CONCLUSIONES
+% ======================================
+
+\section{Conclusiones}
+
+El desarrollo de Valencia Airbnb Intelligence Lab
+permitió integrar 3\,425\,801 registros procedentes
+de tres conjuntos de información complementarios.
+
+La validación relacional confirmó la consistencia
+entre los identificadores de alojamientos y las
+observaciones correspondientes al calendario
+y las reseñas.
+
+El análisis exploratorio permitió caracterizar
+la distribución de precios, la composición de
+los tipos de alojamiento y la concentración
+territorial de anuncios.
+
+La mediana de precios registrada fue de 134,10,
+mientras que la disponibilidad anunciada general
+alcanzó el 52,27\,\text{\char37}.
+
+La distinción entre asociaciones alojamiento-reseña
+e identificadores únicos constituye un resultado
+metodológico relevante para la construcción
+de indicadores temporales.
+
+La implementación de medias móviles, descomposición
+STL y funciones de autocorrelación proporciona
+herramientas para investigar la estructura temporal
+de la información.
+
+La auditoría computacional superó las 56 pruebas
+diseñadas y la aplicación integró ocho módulos
+interactivos.
+
+Finalmente, el trabajo establece una plataforma
+analítica extensible, documentada y versionada,
+capaz de servir como fundamento para posteriores
+investigaciones de aprendizaje de máquina.
+
+% ======================================
+% BIBLIOGRAFIA
+% ======================================
+
+\clearpage
+
+\begin{thebibliography}{99}
+
+\bibitem{insideairbnb}
+Inside Airbnb.
+\textit{Get the Data}.
+\url{https://insideairbnb.com/get-the-data/}.
+
+\bibitem{cleveland1990}
+Cleveland, R. B., Cleveland, W. S.,
+McRae, J. E. y Terpenning, I. (1990).
+STL: A seasonal-trend decomposition procedure
+based on loess.
+\textit{Journal of Official Statistics},
+6(1), 3--73.
+
+\bibitem{hyndman2021}
+Hyndman, R. J. y Athanasopoulos, G. (2021).
+\textit{Forecasting: Principles and Practice},
+3rd edition. OTexts.
+\url{https://otexts.com/fpp3/}.
+
+\bibitem{mckinney2010}
+McKinney, W. (2010).
+Data structures for statistical computing
+in Python.
+\textit{Proceedings of the 9th Python in
+Science Conference}, 56--61.
+
+\bibitem{statsmodels}
+Statsmodels.
+\textit{Time Series Analysis Documentation}.
+\url{https://www.statsmodels.org/}.
+
+\bibitem{streamlit}
+Streamlit.
+\textit{Official Documentation}.
+\url{https://docs.streamlit.io/}.
+
+\bibitem{folium}
+Folium.
+\textit{Documentation}.
+\url{https://python-visualization.github.io/folium/}.
+
+\bibitem{project}
+Román, H. (2026).
+\textit{Valencia Airbnb Intelligence Lab,
+versión 2.0.0}.
+Repositorio de código fuente.
+\url{https://github.com/alexroma1126-design/valencia-airbnb-intelligence-lab}.
+
+\end{thebibliography}
+
+\end{document}
