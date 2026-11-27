@@ -300,3 +300,49 @@ Python, Pandas, NumPy, PyArrow, Statsmodels, Plotly,
 Scikit-learn, Streamlit, Git y LaTeX.
 
 <!-- VALENCIA_V3_END -->
+
+
+<!-- VALENCIA_V31_START -->
+
+---
+
+# Version 3.1.0 - Valencia Intelligence Studio
+
+Interfaz ejecutiva de inteligencia turistica y
+prediccion de demanda.
+
+## Funcionalidades empresariales
+
+- Consultas historicas y predictivas.
+- Pronosticos semanales y mensuales.
+- Comparacion dinamica de barrios.
+- Seleccion interpretable de modelos.
+- Simulador de escenarios turisticos.
+- Mapa interactivo de demanda.
+- Ranking territorial.
+- Laboratorio matematico interactivo.
+- Resumen ejecutivo automatico.
+- Exportacion de resultados CSV y TXT.
+
+## Ejecucion
+
+    python -m streamlit run app/executive_app.py
+
+En Windows, con el entorno virtual preparado:
+
+    .\iniciar_studio.ps1
+
+## Validacion
+
+    python test_executive_dashboard.py
+    python test_executive_extensions.py
+
+La plataforma conserva el motor cientifico v3.0.0.
+
+Las estimaciones de huespedes dependen de supuestos
+y no representan reservas ni ocupacion observadas.
+
+Los intervalos nominales del 95% no garantizan
+cobertura futura.
+
+<!-- VALENCIA_V31_END -->
