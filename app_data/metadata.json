@@ -1,0 +1,14 @@
+{
+    "alojamientos": 7968,
+    "barrios": 84,
+    "filas_reviews_validas": 509513,
+    "resenas_unicas": 458154,
+    "reviews_sin_barrio": 0,
+    "fecha_inicial": "2010-10-12",
+    "fecha_final_observada": "2026-09-25",
+    "margen_conservador_dias": 14,
+    "fecha_corte_modelado": "2026-09-11",
+    "unidad_objetivo": "resenas unicas",
+    "semana": "lunes a domingo",
+    "fuente": "Inside Airbnb"
+}

@@ -1,4 +1,4 @@
-﻿# Valencia Airbnb Intelligence Lab
+# Valencia Airbnb Intelligence Lab
 
 ## Información académica
 
@@ -180,3 +180,123 @@ por ejemplo MiKTeX o TeX Live.
 La version 2.1.0 incorpora la documentacion cientifica
 sin modificar los resultados analiticos de la version 2.0.0.
 
+
+<!-- VALENCIA_V3_START -->
+
+---
+
+# Valencia Airbnb Intelligence Lab v3.0.0
+
+## Predictive Intelligence
+
+**Autor:** Mat. Hector Alexander Roman Potosi
+
+**Programa:** Maestria en Ciencia de Datos
+
+**Modulo:** Aprendizaje de Maquina
+
+## Datos analizados
+
+- 7968 alojamientos.
+- 84 barrios.
+- 509513 registros de resenas.
+- 458154 identificadores unicos de resenas.
+- 2908320 registros del calendario.
+- Fuente: Inside Airbnb.
+- Corte conservador: 11 de septiembre de 2026.
+
+## Modelos predictivos
+
+- Modelo A: naive estacional.
+- Modelo B: estacional con crecimiento.
+- Seleccion automatica mediante MAE.
+- Frecuencias semanal y mensual.
+- Validacion cronologica.
+- Calibracion independiente.
+- Backtesting con origen movil.
+- Intervalos nominales del 95%.
+
+## Resultados experimentales
+
+- Pronosticos generados: 144.
+- Intervalos disponibles: 144.
+
+## Pronosticos mensuales de noviembre de 2026
+
+| Barrio | Modelo | Resenas | Intervalo 95% | WAPE test |
+|---|---|---:|---:|---:|
+| BENIFERRI | A | 13 | 3 - 23 | 36.36% |
+| CABANYAL-CANYAMELAR | A | 638 | 353 - 923 | 10.11% |
+| RUSSAFA | A | 539 | 304 - 774 | 17.70% |
+| TODOS | A | 7547 | 5468 - 9626 | 23.63% |
+
+
+## Plataforma interactiva
+
+1. Exploracion.
+2. Barrios y mapas.
+3. Precios.
+4. Series temporales.
+5. Consultas rapidas.
+6. Laboratorio matematico.
+7. Comparador de barrios.
+8. Estancias completas.
+9. Prediccion de demanda.
+
+### Paneles predictivos
+
+- Respuesta ejecutiva.
+- Pronostico.
+- Evaluacion.
+- Mercado.
+- Metodologia.
+
+## Ejecucion
+
+### Dashboard predictivo independiente
+
+    python -m streamlit run app/predictive_app.py
+
+### Plataforma completa
+
+    python -m streamlit run app/app.py
+
+## Reproducibilidad
+
+Con los datos originales disponibles en data/raw:
+
+    python -m src.prepare_forecast_data
+    python -m src.forecasting
+    python -m src.backtesting
+    python -m src.uncertainty
+    python -m src.tourism
+
+## Pruebas automatizadas
+
+    python test_forecast_data.py
+    python test_forecasting.py
+    python test_backtesting.py
+    python test_uncertainty.py
+    python test_tourism.py
+    python test_prediction_dashboard.py
+    python test_integrated_dashboard.py
+
+## Limitaciones cientificas
+
+- Las resenas no equivalen a reservas confirmadas.
+- Las llegadas estimadas no representan personas unicas.
+- Los parametros turisticos son supuestos modificables.
+- La disponibilidad anunciada no demuestra ocupacion.
+- El nivel nominal del 95% no garantiza cobertura futura.
+- Algunos barrios presentan historia insuficiente.
+- Existe un posible sesgo de supervivencia.
+- No se incorporan eventos externos ni meteorologia.
+- Las estimaciones dependen de la estabilidad temporal.
+- La evaluacion preliminar no sustituye la evaluacion definitiva.
+
+## Tecnologias
+
+Python, Pandas, NumPy, PyArrow, Statsmodels, Plotly,
+Scikit-learn, Streamlit, Git y LaTeX.
+
+<!-- VALENCIA_V3_END -->

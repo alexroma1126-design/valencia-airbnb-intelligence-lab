@@ -139,7 +139,8 @@ tabs = st.tabs([
     "05. Consultas rápidas",
     "06. Laboratorio matemático",
     "07. Comparador de barrios",
-    "08. Estancias completas"
+    "08. Estancias completas",
+    "09. Prediccion de demanda"
 ])
 
 # ======================================
@@ -610,3 +611,9 @@ render_advanced_tabs(
     cal,
     rev
 )
+
+
+# VALENCIA PREDICTION MODULE V3
+with tabs[8]:
+    from prediction_tab import render_prediction_tab
+    render_prediction_tab()
