@@ -112,10 +112,31 @@ def territorial_data(frequency, target, future_mode):
 
         excluded = set(zones) - set(final["barrio"])
 
-        failures = [
-            f"{z}: sin pronostico final disponible"
-            for z in sorted(excluded)
+        skipped = pd.read_csv(
+            ROOT / "results" / "tables"
+            / "forecast_uncertainty_skipped.csv"
+        )
+
+        skipped = skipped[
+            skipped["frecuencia"] == frequency
         ]
+
+        reasons = dict(
+            zip(skipped["barrio"], skipped["motivo"])
+        )
+
+        failures = []
+
+        for zone in sorted(excluded):
+
+            reason = reasons.get(
+                zone,
+                "Sin serie temporal disponible"
+                if zone not in available
+                else "Sin pronostico final disponible"
+            )
+
+            failures.append(f"{zone}: {reason}")
 
         return pd.DataFrame(rows), failures
 
@@ -406,8 +427,28 @@ def render_territory(
                 ],
                 showscale=False,
                 name="Sin datos",
+                text=[
+                    mapping.get(
+                        fid,
+                        "Zona sin correspondencia"
+                    )
+                    for fid in missing
+                ],
+                customdata=[
+                    dict(
+                        msg.split(": ", 1)
+                        for msg in failures
+                        if ": " in msg
+                    ).get(
+                        mapping.get(fid, ""),
+                        "Sin resultado disponible"
+                    )
+                    for fid in missing
+                ],
                 hovertemplate=(
-                    "Sin resultado disponible"
+                    "<b>%{text}</b><br>"
+                    "Pronostico no disponible<br>"
+                    "%{customdata}"
                     "<extra></extra>"
                 ),
                 marker_opacity=0.55,
