@@ -1,10 +1,10 @@
-﻿$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Stop"
 
 Set-Location $PSScriptRoot
 
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "VALENCIA INTELLIGENCE STUDIO 3.1" -ForegroundColor Cyan
+Write-Host "VALENCIA INTELLIGENCE STUDIO 3.2" -ForegroundColor Cyan
 Write-Host "Mat. Hector Roman" -ForegroundColor Cyan
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""

@@ -80,7 +80,11 @@ def territorial_data(frequency, target, future_mode):
 
     # Use already validated results for November.
 
-    if future_mode and target == pd.Timestamp(saved_target):
+    if (
+        future_mode
+        and frequency != "diaria"
+        and target == pd.Timestamp(saved_target)
+    ):
 
         final = pd.read_csv(
             ROOT / "results" / "tables"
@@ -643,11 +647,11 @@ def render_math(
 
         season = CONFIG[frequency]["season"]
 
-        windows = (
-            [3, 6, 12]
-            if frequency == "mensual"
-            else [4, 13, 26, 52]
-        )
+        windows = {
+            "diaria": [7, 28, 91, 364],
+            "semanal": [4, 13, 26, 52],
+            "mensual": [3, 6, 12]
+        }[frequency]
 
         selected = summary["modelo"]
 
@@ -956,7 +960,7 @@ def render_report(
         "No se demuestra ocupacion ni rentabilidad.",
         "",
         "Fuente: Inside Airbnb.",
-        "Motor cientifico: v3.0.0.",
+        "Motor cientifico: v3.2.0.",
         "Autor: Mat. Hector Roman."
     ]
 

@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import numpy as np
 import pandas as pd
 
@@ -6,6 +6,11 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "app_data"
 
 CONFIG = {
+    "diaria": {
+        "file": "reviews_diarias.parquet",
+        "freq": "D",
+        "season": 364
+    },
     "semanal": {
         "file": "reviews_semanales.parquet",
         "freq": "W-MON",
@@ -116,7 +121,13 @@ def forecast_at(
             "Horizonte superior al ciclo estacional"
         )
 
-    if frequency == "semanal":
+    if frequency == "diaria":
+
+        reference = target - pd.Timedelta(
+            days=season
+        )
+
+    elif frequency == "semanal":
 
         reference = target - pd.Timedelta(
             weeks=season

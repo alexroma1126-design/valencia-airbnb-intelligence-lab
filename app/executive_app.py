@@ -134,6 +134,10 @@ def period_label(date, frequency):
 
         return f"{MONTHS[date.month-1]} de {date.year}"
 
+    if frequency == "diaria":
+
+        return f"{date:%d/%m/%Y}"
+
     end = date + pd.Timedelta(days=6)
 
     return f"{date:%d/%m/%Y} - {end:%d/%m/%Y}"
@@ -253,7 +257,7 @@ def main():
 
             frequency = st.radio(
                 "Frecuencia temporal",
-                ["mensual", "semanal"],
+                ["mensual", "semanal", "diaria"],
                 horizontal=True,
                 format_func=str.capitalize,
                 key="exec_frequency"
@@ -294,21 +298,21 @@ def main():
                 freq=cfg["freq"]
             )[1:]
 
-            default = (
-                "2026-11-01"
-                if frequency == "mensual"
-                else "2026-11-02"
-            )
+            default = {
+                "mensual": "2026-11-01",
+                "semanal": "2026-11-02",
+                "diaria": "2026-11-02"
+            }[frequency]
 
         else:
 
             dates = y.index[::-1]
 
-            default = (
-                "2026-03-01"
-                if frequency == "mensual"
-                else "2026-03-02"
-            )
+            default = {
+                "mensual": "2026-03-01",
+                "semanal": "2026-03-02",
+                "diaria": "2026-03-02"
+            }[frequency]
 
         options = [str(x.date()) for x in dates]
 
@@ -557,11 +561,11 @@ def main():
 
         if future_mode:
             history = y.tail(
-                36 if frequency == "mensual" else 104
+                {"mensual": 36, "semanal": 104, "diaria": 180}[frequency]
             )
         else:
             history = y.loc[:target].tail(
-                36 if frequency == "mensual" else 104
+                {"mensual": 36, "semanal": 104, "diaria": 180}[frequency]
             )
 
         fig = go.Figure()
@@ -1211,7 +1215,7 @@ def main():
 
     st.caption(
         "Valencia Intelligence Studio | "
-        "Motor predictivo v3.0.0 | "
+        "Motor predictivo v3.2.0 | "
         "Mat. Héctor Román"
     )
 

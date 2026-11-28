@@ -346,3 +346,53 @@ Los intervalos nominales del 95% no garantizan
 cobertura futura.
 
 <!-- VALENCIA_V31_END -->
+
+
+<!-- VALENCIA_V32_START -->
+
+---
+
+# Version 3.2.0 - Multi-Frequency Intelligence
+
+Predicciones diarias, semanales y mensuales.
+
+## Configuraciones predictivas
+
+| Frecuencia | Estacionalidad | Ventanas K |
+|---|---:|---|
+| Diaria | 364 dias | 7, 28, 91, 364 |
+| Semanal | 52 semanas | 4, 13, 26, 52 |
+| Mensual | 12 meses | 3, 6, 12 |
+
+Dos familias matematicas y catorce configuraciones.
+
+## Validacion diaria
+
+- 91 observaciones de validacion.
+- 182 observaciones de calibracion.
+- 92 observaciones de test.
+- Backtesting vectorizado.
+- Intervalos predictivos nominales del 95%.
+
+## Cobertura de las consultas de referencia
+
+- Diaria: 79 de 84 barrios.
+- Semanal: 71 de 84 barrios.
+- Mensual: 71 de 84 barrios.
+
+Se incluye una prediccion independiente de toda Valencia
+en cada frecuencia.
+
+## Pruebas adicionales
+
+    python test_daily_forecasting.py
+    python test_daily_dashboard.py
+    python audit_daily_release.py
+
+Los pronosticos de diferentes frecuencias se calculan
+independientemente y no se garantiza su reconciliacion.
+
+Las llegadas de huespedes son estimaciones condicionadas
+a supuestos, no reservas ni ocupacion observadas.
+
+<!-- VALENCIA_V32_END -->

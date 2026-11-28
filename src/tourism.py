@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import numpy as np
 import pandas as pd
 
@@ -258,7 +258,11 @@ def period_context(
 
     target = pd.Timestamp(target)
 
-    if frequency == "semanal":
+    if frequency == "diaria":
+
+        end = target
+
+    elif frequency == "semanal":
 
         end = target + pd.Timedelta(days=6)
 

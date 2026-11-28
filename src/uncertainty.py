@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import math
 import numpy as np
 import pandas as pd
@@ -30,6 +30,12 @@ def shift_period(date, frequency, periods):
 
     date = pd.Timestamp(date)
 
+    if frequency == "diaria":
+
+        return date + pd.Timedelta(
+            days=periods
+        )
+
     if frequency == "semanal":
 
         return date + pd.Timedelta(
@@ -53,15 +59,17 @@ def temporal_windows(frequency, horizon):
         settings["test_end"]
     )
 
-    n_cal = (
-        78 if frequency == "semanal"
-        else 24
-    )
+    n_cal = {
+        "diaria": 182,
+        "semanal": 78,
+        "mensual": 24
+    }[frequency]
 
-    n_val = (
-        52 if frequency == "semanal"
-        else 12
-    )
+    n_val = {
+        "diaria": 91,
+        "semanal": 52,
+        "mensual": 12
+    }[frequency]
 
     first_test_origin = get_origin(
         test_start,
@@ -356,6 +364,26 @@ def predict_with_uncertainty(
         raise ValueError(
             "Historia insuficiente para seleccionar modelo"
         )
+
+    if frequency == "diaria":
+
+        if calibrated["n_calibracion"] != 182:
+
+            raise ValueError(
+                "Calibracion diaria incompleta"
+            )
+
+        if calibrated["cobertura_datos_test"] != 1:
+
+            raise ValueError(
+                "Test diario incompleto"
+            )
+
+        if not np.isfinite(calibrated["radio"]):
+
+            raise ValueError(
+                "Intervalo diario no disponible"
+            )
 
     test = calibrated["test"]
 

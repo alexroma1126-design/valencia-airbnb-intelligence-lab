@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import numpy as np
 import pandas as pd
 
@@ -14,6 +14,14 @@ OUT = ROOT / "results" / "tables"
 OUT.mkdir(parents=True, exist_ok=True)
 
 SETTINGS = {
+    "diaria": {
+        "h": 52,
+        "k_values": [7, 28, 91, 364],
+        "validation_start": "2024-09-01",
+        "validation_end": "2024-11-30",
+        "test_start": "2025-10-01",
+        "test_end": "2025-12-31"
+    },
     "semanal": {
         "h": 10,
         "k_values": [4, 13, 26, 52],
@@ -80,6 +88,12 @@ def get_origin(target, frequency, horizon):
 
     target = pd.Timestamp(target)
 
+    if frequency == "diaria":
+
+        return target - pd.Timedelta(
+            days=horizon
+        )
+
     if frequency == "semanal":
 
         return target - pd.Timedelta(
@@ -91,6 +105,98 @@ def get_origin(target, frequency, horizon):
     )
 
 
+
+def backtest_daily(y, start, end, horizon, k):
+
+    season = CONFIG["diaria"]["season"]
+
+    if not 1 <= horizon <= season:
+
+        raise ValueError("Horizonte diario invalido")
+
+    if k < 1:
+
+        raise ValueError("Ventana K invalida")
+
+    y = y.sort_index().astype(float)
+
+    targets = pd.date_range(
+        start=start,
+        end=end,
+        freq="D"
+    )
+
+    origins = targets - pd.Timedelta(
+        days=horizon
+    )
+
+    references = targets - pd.Timedelta(
+        days=season
+    )
+
+    mask = (
+        targets.isin(y.index)
+        & origins.isin(y.index)
+        & references.isin(y.index)
+    )
+
+    targets = targets[mask]
+    origins = origins[mask]
+    references = references[mask]
+
+    real = y.reindex(targets).to_numpy()
+
+    base = y.reindex(references).to_numpy()
+
+    rolling = y.rolling(
+        window=k,
+        min_periods=k
+    ).sum()
+
+    recent = rolling.reindex(
+        origins
+    ).to_numpy()
+
+    previous = rolling.reindex(
+        origins - pd.Timedelta(days=season)
+    ).to_numpy()
+
+    growth = np.full(
+        len(targets),
+        np.nan,
+        dtype=float
+    )
+
+    valid = (
+        np.isfinite(recent)
+        & np.isfinite(previous)
+        & (previous > 0)
+    )
+
+    np.divide(
+        recent,
+        previous,
+        out=growth,
+        where=valid
+    )
+
+    predicted_b = np.maximum(
+        0.0,
+        base * growth
+    )
+
+    return pd.DataFrame({
+        "fecha": targets,
+        "origen": origins,
+        "real": real,
+        "modelo_A": base,
+        "modelo_B": predicted_b,
+        "factor_crecimiento": growth,
+        "horizonte": horizon,
+        "K": k
+    })
+
+
 def backtest(
     y,
     frequency,
@@ -99,6 +205,12 @@ def backtest(
     horizon,
     k
 ):
+
+    if frequency == "diaria":
+
+        return backtest_daily(
+            y, start, end, horizon, k
+        )
 
     targets = pd.date_range(
         start=start,
